@@ -1,0 +1,10 @@
+[x,y] = meshgrid(-3:1/8:3);
+z = peaks(x,y);
+subplot(2,2,1);surf(z);
+title('surf(z)????');
+subplot(2,2,2);surf(x,y,z);
+title('surf(x,y,z)????');
+subplot(2,2,3);surfl(x,y,z);
+title('surfl(x,y,z)????');
+subplot(2,2,4);surfc(x,y,z);
+title('surfc(x,y,z)????');

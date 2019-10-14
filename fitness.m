@@ -1,0 +1,4 @@
+function [aNB] = fitness()
+
+
+end

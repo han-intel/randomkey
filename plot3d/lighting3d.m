@@ -1,0 +1,24 @@
+[x,y,z] = sphere(25);
+subplot(2,2,1);surf(x,y,z);
+axis equal;shading interp;
+hold on;
+title('lighting none')
+subplot(2,2,2);surf(x,y,z);
+axis equal;
+light('position',[0,0.5 1]);
+shading interp;lighting flat;
+hold on;
+title('lighting flat');
+subplot(2,2,3);surf(x,y,z);
+axis equal;
+light('position',[0,0.5 1]);
+shading interp;lighting gouraud;
+hold on;
+title('lighting gouraud');
+subplot(2,2,4);surf(x,y,z);
+axis equal;
+light('position',[0,0.5 1]);
+shading interp;lighting phong;
+hold on;
+title('lighting phong');
+set(gcf,'color','w');
