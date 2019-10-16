@@ -1,16 +1,36 @@
+clear;
 % numb
 n=20;
-rk=rand(1,n*2);
+classtype=2;
+[bin,boxes]=generator(n,classtype);
+% random sequence
+chromosome=rand(1,n*2);
+% orientation sequence
+vbo = zeros(1,n);
 for i = 1:n
-    boxs(i).num=i;
-    boxs(i).randomkey=rk(i);
-    boxs(i).orientation=rk(i+n);
+    brk(i).randomkey=chromosome(i);
+    brk(i).orientation=chromosome(i+n);
+    vbo(i)=chromosome(i+n);
 end
 % box packing sequence
-bps=zeros(n,2);
+bpssort=zeros(n,2);
 for i=1:n
-    bps(i,1)=rk(i);
-    bps(i,2)=i;
+    bpssort(i,1)=chromosome(i);
+    bpssort(i,2)=i;
 end
-bps=sortrows(bps);
+bpssort=sortrows(bpssort);
+bps=bpssort(:,2);
+bps=reshape(bps,1,n);
+
+% place the boxes into bines
+bins=placement(bps,vbo,bin,boxes);
+
+% plot the package
+plotpacking(bins);
+
+
+
+
+
+
 
