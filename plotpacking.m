@@ -1,6 +1,6 @@
 % plot the bins and the packing result
 function plotpacking(bins)
-close all;
+% close all;
 for i=1:length(bins)
     bin=bins(i);
     figure;

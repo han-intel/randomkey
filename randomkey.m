@@ -1,30 +1,13 @@
 clear;
-% numb
+% generate instance
 n=20;
 classtype=2;
 [bin,boxes]=generator(n,classtype);
-% random sequence
-chromosome=rand(1,n*2);
-% orientation sequence
-vbo = zeros(1,n);
-for i = 1:n
-    brk(i).randomkey=chromosome(i);
-    brk(i).orientation=chromosome(i+n);
-    vbo(i)=chromosome(i+n);
-end
-% box packing sequence
-bpssort=zeros(n,2);
-for i=1:n
-    bpssort(i,1)=chromosome(i);
-    bpssort(i,2)=i;
-end
-bpssort=sortrows(bpssort);
-bps=bpssort(:,2);
-bps=reshape(bps,1,n);
-
-% place the boxes into bines
-bins=placement(bps,vbo,bin,boxes);
-
+% genetic progress
+tb=clock;
+[chromosome,fitness,bins]=genetic(bin,boxes);
+et=etime(clock,tb);
+fprintf('elapsed time: %f',et);
 % plot the package
 plotpacking(bins);
 
