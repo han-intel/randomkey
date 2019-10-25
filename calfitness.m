@@ -1,4 +1,4 @@
-function [anb] = fitness(bins)
+function [anb] = calfitness(bins)
 nb=length(bins);
 vboxleastratio=1;
 for i=1:nb

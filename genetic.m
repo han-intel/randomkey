@@ -1,22 +1,30 @@
 % the random key genetic algorithm
-function [chromosome,fitness,bins] = genetic(bin,boxes)
+function [chromosome,fitness,bins] = genetic(bin,boxes,varargin)
+mindim=varargin{1};
+minvol=varargin{2};
 n=length(boxes);
 populnum=30*n;
-elitenum=0.1*populnum;
+elitenum=floor(0.1*populnum);
 eliteposs=0.70;
-mutantnum=0.15*populnum;
-iteratenum=100;
+mutantnum=floor(0.15*populnum);
+iteratenum=1;
 
 % initate population
 populations=cell(populnum,3);
+tb1=clock;
 for i=1:populnum
+% parpool(4);
+% parfor i=1:populnum
 % random sequence
     chromosome=rand(1,n*2);
-    [fitness, bins]=evaluate(chromosome,bin,boxes);
-    populations(i,1)={fitness};
-    populations(i,2)={chromosome};
-    populations(i,3)={bins};
+    tb=clock;
+    [fitness, bins]=evaluate(chromosome,bin,boxes,mindim,minvol);
+    et=etime(clock,tb);
+    fprintf('evaluate elapsed time: %f\n',et);
+    populations(i,:)=[{fitness},{chromosome},{bins}];
 end
+et1=etime(clock,tb1);
+fprintf('initate elapsed time: %f\n',et1);
 populations=sortrows(populations,1);
 elitepopul=populations(1:elitenum,:);
 nomalpopul=populations(elitenum+1:end,:);
@@ -26,16 +34,16 @@ for i=1:iteratenum
 %     generate mutants
     mutantpopul=cell(mutantnum,3);
     for j=1:mutantnum
+%     parfor j=1:mutantnum
         chromosome=rand(1,n*2);
-        [fitness, bins]=evaluate(chromosome,bin,boxes);
-        mutantpopul(j,1)={fitness};
-        mutantpopul(j,2)={chromosome};
-        mutantpopul(j,3)={bins};
+        [fitness, bins]=evaluate(chromosome,bin,boxes,mindim,minvol);
+        mutantpopul(j,:)=[{fitness},{chromosome},{bins}];
     end
 %     mating and crossover
     evolnum=populnum-elitenum-mutantnum;
     evolpopul=cell(evolnum,3);
     for j=1:evolnum
+%     parfor j=1:evolnum
         parentone=elitepopul(ceil(rand(1)*elitenum),:);
         parenttwo=nomalpopul(ceil(rand(1)*(populnum-elitenum)),:);
         evolchrom=zeros(1,n*2);
@@ -47,10 +55,8 @@ for i=1:iteratenum
                 evolchrom(k)=parenttwo{2}(k);
             end
         end
-        [fitness, bins]=evaluate(evolchrom,bin,boxes);
-        evolpopul(j,1)={fitness};
-        evolpopul(j,2)={evolchrom};
-        evolpopul(j,3)={bins};
+        [fitness, bins]=evaluate(evolchrom,bin,boxes,mindim,minvol);
+        evolpopul(j,:)=[{fitness},{evolchrom},{bins}];
     end
     
 % new generation

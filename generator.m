@@ -54,6 +54,10 @@ ems.minz=0;
 ems.maxx=D;
 ems.maxy=W;
 ems.maxz=H;
+ems.h=ems.maxz-ems.minz;
+ems.d=ems.maxx-ems.minx;
+ems.w=ems.maxy-ems.miny;
+ems.vol=ems.h*ems.d*ems.w;
 bin.emses=[ems];
 bin.boxspaces=[];
 %    generate boxes
@@ -110,6 +114,8 @@ bin.boxspaces=[];
        box(i).h=h(i);
        box(i).w=w(i);
        box(i).d=d(i);
+       box(i).vol=box(i).d*box(i).w*box(i).h;
+       box(i).mindim=min([box(i).d,box(i).w,box(i).h]);
     end
     
     end

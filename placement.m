@@ -1,5 +1,7 @@
 % place the boxes into the bins
-function [bins]=placement(bps,vbo,bin,boxes)
+function [bins]=placement(bps,vbo,bin,boxes,varargin)
+mindim=varargin{1};
+minvol=varargin{2};
 % initiate the variables
 bins=[bin];
 nb=1;
@@ -37,6 +39,16 @@ for i=1:n
     origin.x=emsselected.minx;
     origin.y=emsselected.miny;
     origin.z=emsselected.minz;
-    bins(binnoselected)=packbox(boxes(boxnotopack),boo,origin,bins(binnoselected));
+    bins(binnoselected)=packbox(boxes(boxnotopack),boo,origin,bins(binnoselected),mindim,minvol);
+    if box.mindim<=mindim
+        for j=i+1:n
+            mindim=min([mindim,boxes(j).mindim]);
+        end
+    end
+    if box.vol<=minvol
+        for j=i+1:n
+            minvol=min([minvol,boxes(j).vol]);
+        end
+    end
 end
 end

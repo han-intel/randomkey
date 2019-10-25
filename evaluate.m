@@ -1,5 +1,7 @@
 % evaluate the solution
-function [anb bins]=evaluate(chromosome,bin,boxes)
+function [anb bins]=evaluate(chromosome,bin,boxes,varargin)
+mindim=varargin{1};
+minvol=varargin{2};
 n=length(chromosome)/2;
 % orientation sequence
 vbo = zeros(1,n);
@@ -19,10 +21,10 @@ bps=bpssort(:,2);
 bps=reshape(bps,1,n);
 
 % place the boxes into bines
-bins=placement(bps,vbo,bin,boxes);
+bins=placement(bps,vbo,bin,boxes,mindim,minvol);
 
 % calculate the fitness
-anb=fitness(bins);
+anb=calfitness(bins);
 
 
 end

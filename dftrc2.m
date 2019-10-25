@@ -1,4 +1,5 @@
 function [emso,orientationo]=dftrc2(box,bin)
+tb=clock;
 emses=bin.emses;
 maxdist=-1;
 boo=-1;
@@ -30,5 +31,6 @@ for i=1:length(emses)
         orientationo=orientations;
     end
 end
-
+et=etime(clock,tb);
+fprintf('dftrc2 elapsed time: %f\n',et);
 end
